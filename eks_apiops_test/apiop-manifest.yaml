@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiops-deployment
+  labels:
+    app: apiops
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: apiops
+  template:
+    metadata:
+      labels:
+        app: apiops
+    spec:
+      containers:
+        - name: apiops-container
+          image: 36620759amara/apiops-test-manuel:latest
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiops-service
+spec:
+  selector:
+    app: apiops
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: LoadBalancer
